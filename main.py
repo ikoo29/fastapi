@@ -18,22 +18,12 @@ async def get_coordinates(ads: str = Query(...), num: str = Query(...)):
     }
 
     async with httpx.AsyncClient() as client:
-        try:
-            response = await client.get(url, params=params)
-            response.raise_for_status()  # 4xx, 5xx 응답을 예외로 처리
-            data = response.json()
+        response = await client.get(url, params=params)
+        response.raise_for_status()  # 4xx, 5xx 응답을 예외로 처리
+        data = response.json()
             
-            # API 응답에서 좌표 추출
-            x = data['response']['result']['point']['x']
-            y = data['response']['result']['point']['y']
-            return {"message" : full_ads + "의 좌표의 x값은 " + x + ", y값은 " + y + "입니다."}
-        
-        except httpx.HTTPStatusError as http_exc:
-            # HTTP 에러 응답 처리
-            detail = f"HTTP error status code: {http_exc.response.status_code}"
-            raise HTTPException(status_code=http_exc.response.status_code, detail=detail)
-        
-        except Exception as exc:
-            # 기타 예외 처리
-            detail = f"An error occurred: {exc}"
-            raise HTTPException(status_code=500, detail=detail)
+        # API 응답에서 좌표 추출
+        x = data['response']['result']['point']['x']
+        y = data['response']['result']['point']['y']
+        return {"message" : full_ads + "의 좌표의 x값은 " + x + ", y값은 " + y + "입니다."}
+

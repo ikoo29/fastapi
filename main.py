@@ -14,7 +14,7 @@ async def get_coordinates(ads: str = Query(...), num: str = Query(...)):
         "address": full_ads,
         "format": "json",
         "type": "road",
-        "key": key
+        "key": "6F8A7554-1FF8-33C3-83EC-2B74113F97BD"
     }
 
     async with httpx.AsyncClient() as client:

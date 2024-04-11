@@ -1,12 +1,20 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Request
 import httpx
 import os
 
 app = FastAPI()
 
-@app.post("/get-coordinates/")
-async def get_coordinates(road: str, num: str):
+@app.post("/webhook/")
+async def get_coordinates(request: Request):
+    # 요청 JSON 데이터를 파이썬 객체로 변환
+    data = await request.json()
+    
+    # 'road'와 'num' 추출
+    road = data['action']['params']['road']
+    num = data['action']['params']['num']
     full_address = f"{road} {num}"
+    
+    # 외부 API URL 및 파라미터 설정
     url = 'https://api.vworld.kr/req/address'
     params = {
         "service": "address",
@@ -18,16 +26,18 @@ async def get_coordinates(road: str, num: str):
         "key": os.getenv('VWORLD_API_KEY')  # 환경변수에서 API 키 가져오기
     }
 
+    # 외부 API에 비동기 HTTP 요청
     async with httpx.AsyncClient() as client:
         response = await client.get(url, params=params)
         if response.status_code != 200:
             raise HTTPException(status_code=response.status_code, detail="API call failed")
-
-        data = response.json()
+        
+        # API 응답 파싱
+        response_data = response.json()
         try:
-            # API 응답에서 좌표 추출
-            x = data['response']['result']['point']['x']
-            y = data['response']['result']['point']['y']
+            x = response_data['response']['result']['point']['x']
+            y = response_data['response']['result']['point']['y']
             return {"message": f"{full_address}의 좌표는 x: {x}, y: {y}"}
         except KeyError:
             raise HTTPException(status_code=400, detail="Invalid data received from API")
+

@@ -23,7 +23,7 @@ async def get_coordinates(request: Request):
         "address": full_address,
         "format": "json",
         "type": "road",
-        "key": os.getenv('VWORLD_API_KEY')  # 환경변수에서 API 키 가져오기
+        "key": os.environ['key_num']  # 환경변수에서 API 키 가져오기
     }
 
     # 외부 API에 비동기 HTTP 요청

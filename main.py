@@ -1,5 +1,6 @@
 from fastapi import FastAPI, Query
 import httpx
+import os
 
 app = FastAPI()
 
@@ -14,7 +15,7 @@ async def get_coordinates(ads: str = Query(...), num: str = Query(...)):
         "address": full_ads,
         "format": "json",
         "type": "road",
-        "key": key_num
+        "key": os.environ.get(key_num)
     }
 
     async with httpx.AsyncClient() as client:

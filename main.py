@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Query, HTTPException
+from fastapi import FastAPI, Query
 import httpx
 
 app = FastAPI()
@@ -19,7 +19,6 @@ async def get_coordinates(ads: str = Query(...), num: str = Query(...)):
 
     async with httpx.AsyncClient() as client:
         response = await client.get(url, params=params)
-        response.raise_for_status()  # 4xx, 5xx 응답을 예외로 처리
         data = response.json()
             
         # API 응답에서 좌표 추출

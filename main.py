@@ -23,7 +23,7 @@ async def get_coordinates(request: Request):
         "crs": "epsg:4326",
         "address": full_address,
         "format": "json",
-        "type": "road", #도로명이면 road / 동주소면 parcel
+        "type": "parcel", #도로명이면 road / 동주소면 parcel
         "key": os.environ['key_num']  # 환경변수에서 API 키 가져오기
     }
 

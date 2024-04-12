@@ -10,8 +10,8 @@ async def get_coordinates(request: Request):
     data = await request.json()
     print(data)
     # 'road'와 'num' 추출
-    road = data['action']['params']['road']
-    num = data['action']['params']['num']
+    road = data['action']['detailParams']['road']['origin']
+    num = data['action']['detailParams']['num']['origin']
     full_address = f"{road} {num}"
     
     # 외부 API URL 및 파라미터 설정

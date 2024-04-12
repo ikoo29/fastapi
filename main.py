@@ -8,7 +8,7 @@ app = FastAPI()
 async def get_coordinates(request: Request):
     # 요청 JSON 데이터를 파이썬 객체로 변환
     data = await request.json()
-    
+    print(data)
     # 'road'와 'num' 추출
     road = data['action']['params']['road']
     num = data['action']['params']['num']

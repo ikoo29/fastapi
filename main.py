@@ -13,7 +13,7 @@ async def get_coordinates(request: Request):
     road = data['action']['detailParams']['road']['origin']
     num = data['action']['detailParams']['num']['origin']
     full_address = f"{road} {num}"
-    print(full_addres)
+    print(full_address)
     
     # 외부 API URL 및 파라미터 설정
     url = 'https://api.vworld.kr/req/address'
